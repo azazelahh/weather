@@ -7,14 +7,23 @@ puts "What is your zipcode?"
 zipcode = gets
 
 def getforecasts (zipcode)
+    today = Time.now.strftime('%w').to_i
     client = Weatherman::Client.new
     weather = client.lookup_by_location(zipcode)
     weather.forecasts.each do |fore|
-        day = fore['day'].to_s
+        day = fore['date'] 
+        week_day = day.strftime('%w').to_i         
+        if week_day == today
+           day_name = 'Today'
+        elsif week_day == today + 1
+           day_name = 'Tomorrow'
+        else
+           day_name = day.strftime('%A')
+        end
         cond = fore['text'].to_s.downcase
         low = fore['low'].to_s
         high = fore['high'].to_s
-        puts day + " is going to be " + cond + " with a low of " + low + " and a high of " + high + " degrees Celcius."
+        puts day_name + " is going to be " + cond + " with a low of " + low + " and a high of " + high + " degrees Celcius."
         
     end
     return

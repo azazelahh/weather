@@ -21,9 +21,9 @@ def getforecasts (zipcode)
            day_name = day.strftime('%A')
         end
         cond = fore['text'].to_s.downcase
-        low = fore['low'].to_s
-        high = fore['high'].to_s
-        puts day_name + " is going to be " + cond + " with a low of " + low + " and a high of " + high + " degrees Celcius."
+        low = fore['low']
+        high = fore['high']
+        puts day_name + " is going to be " + cond + " with a low of " + tempInFahrenheit(low) + " and a high of " + tempInFahrenheit(high) + " degrees Celcius."
         
     end
     return
@@ -45,6 +45,10 @@ def getlocation (zipcode)
 
     return response.location['city']
 
+end
+
+def tempInFahrenheit(celcius)
+    return (celcius.to_i*1.8 + 32.00).round(1).to_s
 end
 
 puts "Weather in " + getlocation(zipcode) + " is " + getweather(zipcode) + "."
